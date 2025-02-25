@@ -1,0 +1,20 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="width: 350px;border-radius: 5%;">
+        <h3 class="text-center mb-3">Task Management Login</h3>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <p-floatlabel variant="on">
+                    <input pInputText id="on_label"  formControlName = "username" autocomplete="off" class="w-100" />
+                    <label for="on_label"><i class="pi pi-user" ></i> User Name</label>
+                </p-floatlabel>
+            </div>
+            <div class="mb-3" >
+                <p-floatlabel variant="on">
+                    <p-password  id="on_label" feedback="false" [toggleMask]="true"  formControlName = "password" autocomplete="off" [inputStyle]="{'width': '300px'}" />
+                    <label for="on_label"><i class="pi pi-key" ></i> Password</label>
+                </p-floatlabel>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login <i class="pi pi-arrow-circle-right" ></i></button>
+        </form>
+    </div>
+</div>
