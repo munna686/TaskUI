@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
+import { AvatarModule } from 'primeng/avatar';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-topbar',
-  imports: [MenubarModule],
+  imports: [MenubarModule,AvatarModule,OverlayBadgeModule],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.css'
 })
@@ -11,17 +15,21 @@ export class TopbarComponent implements OnInit{
     items: MenuItem[]|undefined;
     ngOnInit(): void {
         this.items = [
+          
           {
               label: 'Home',
-              icon: 'pi pi-home'
+              icon: 'pi pi-home',
+              routerLink : '/admin/taskms/dashboard'
+
           },
           {
-              label: 'Features',
-              icon: 'pi pi-star'
+              label: 'Users',
+              icon: 'pi pi-users',
+              routerLink: '/admin/taskms/user'
           },
           {
-              label: 'Projects',
-              icon: 'pi pi-search',
+              label: 'Task Opeartion',
+              icon: 'pi pi-server',
               items: [
                   {
                       label: 'Components',
@@ -52,8 +60,8 @@ export class TopbarComponent implements OnInit{
               ]
           },
           {
-              label: 'Contact',
-              icon: 'pi pi-envelope'
+              label: 'Notification',
+              icon: 'pi pi-bell'
           }
       ]
     }
