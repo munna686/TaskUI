@@ -1,8 +1,28 @@
-<div class="card flex justify-center">
-    <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+<div class="d-flex justify-content-between align-items-center">
+  <p-breadcrumb class="max-w-full flex-grow-1" [model]="items" [home]="home"></p-breadcrumb>
+  <button pButton (click)="showDialog()" label="Add User" icon="pi pi-plus" class="ml-2 p-button-sm p-button-primary"></button>
 </div>
-
+<!-- Dialog -->
+<div class="card flex justify-center">
+  <p-dialog  [modal]="true" [(visible)]="visible" [style]="{ width: '35rem' }">
+      <div class="flex items-center gap-4 mb-4">
+          <p-floatlabel variant="on">
+          <input pInputText id="on_label" autocomplete="off" />
+          <label for="on_label">User Name</label>
+      </p-floatlabel>
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+          <label for="email" class="font-semibold w-24">Email</label>
+          <input pInputText id="email" class="flex-auto" autocomplete="off" />
+      </div>
+      <div class="flex justify-end gap-2">
+          <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+          <p-button label="Save" (click)="visible = false" />
+      </div>
+  </p-dialog>
+</div>
 <div class="card mt-2" >
+  <!-- <p-button (click)="showDialog()" label="Show" /> -->
     <p-table
         [value]="Users"
         stripedRows
@@ -15,6 +35,7 @@
               <th>Role</th>
               <th>Created At</th>
               <th>Created By</th>
+              <th>Action</th>
             </tr>
           </ng-template>
           
