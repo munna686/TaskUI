@@ -1,0 +1,5 @@
+.container {
+    max-width: 1640px; /* প্রয়োজন অনুসারে কমিয়ে দিন */
+    margin: 0 auto;
+    padding: 10px; /* কম করে দিন */
+}
