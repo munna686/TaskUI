@@ -41,6 +41,7 @@ export class AuthService {
   }
 
   getRefreshToken(): string | null {
+    console.log(localStorage.getItem('refresh_token'))
     return localStorage.getItem('refresh_token');
   }
 
@@ -53,7 +54,7 @@ export class AuthService {
 
   refreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
-    return this.http.post(`${this.apiUrl}/RefreshToken`, { refreshToken }).pipe(
+    return this.http.post(`${this.apiUrl}/Auth/RefreshToken?refreshToken=${refreshToken}`,{}).pipe(
       tap((response: any) => {
         if (response.success) {
           this.setSession(response.data.token, response.data.refreshToken);

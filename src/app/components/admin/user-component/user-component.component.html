@@ -4,22 +4,95 @@
 </div>
 <!-- Dialog -->
 <div class="card flex justify-center">
-  <p-dialog  [modal]="true" [(visible)]="visible" [style]="{ width: '35rem' }">
-      <div class="flex items-center gap-4 mb-4">
-          <p-floatlabel variant="on">
-          <input pInputText id="on_label" autocomplete="off" />
-          <label for="on_label">User Name</label>
-      </p-floatlabel>
+  <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '35rem' ,height : '28rem'}" header="User Information">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="p-fluid">
+  
+      <!-- First Row: User Name and Email -->
+      <div class="mb-4 flex" style="display: flex; gap: 10px;">
+        <p-floatLabel variant="in" style="flex: 1;">
+          <input 
+            pInputText 
+            id="username" 
+            formControlName="username" 
+            required 
+            type="text" 
+            [ngClass]="{'invalid-field': userForm.controls['username'].invalid && userForm.controls['username'].touched}" 
+          />
+          <label for="username">User Name</label>
+        </p-floatLabel>
+    
+        <p-floatLabel  variant="in" style="flex: 1;">
+          <input 
+            pInputText 
+            id="email" 
+            formControlName="email" 
+            required 
+            type="email" 
+            [ngClass]="{'invalid-field': userForm.controls['email'].invalid && userForm.controls['email'].touched}" 
+          />
+          <label for="email">Email</label>
+        </p-floatLabel>
       </div>
-      <div class="flex items-center gap-4 mb-8">
-          <label for="email" class="font-semibold w-24">Email</label>
-          <input pInputText id="email" class="flex-auto" autocomplete="off" />
+    
+      <!-- Second Row: Password and Confirm Password -->
+      <div class="mb-4 flex" style="display: flex; gap: 10px;">
+        <p-floatLabel variant="in" style="flex: 1;">
+          <input 
+            pInputText 
+            id="password" 
+            formControlName="password" 
+            required 
+            type="password" 
+            [ngClass]="{'invalid-field': userForm.controls['password'].invalid && userForm.controls['password'].touched}" 
+          />
+          <label for="password">Password</label>
+        </p-floatLabel>
+    
+        <p-floatLabel variant="in" style="flex: 1;">
+          <input 
+            pInputText 
+            id="confirmPassword" 
+            formControlName="confirmPassword" 
+            required 
+            type="password" 
+            [ngClass]="{'invalid-field': userForm.controls['confirmPassword'].invalid && userForm.controls['confirmPassword'].touched || userForm.hasError('mismatch')}" 
+          />
+          <label for="confirmPassword">Confirm Password</label>
+        </p-floatLabel>
       </div>
-      <div class="flex justify-end gap-2">
-          <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-          <p-button label="Save" (click)="visible = false" />
+    
+      <!-- Password Mismatch Error -->
+      <div *ngIf="userForm.hasError('mismatch')" class="error-text">
+        Passwords do not match!
       </div>
+    
+      <!-- Dropdown Row: Select Role -->
+      <div class="mb-4 flex" style="display: flex; gap: 10px; align-items: center;">
+        <p-select 
+        [options]="roles" 
+          optionLabel="roleName" 
+          optionValue="roleId" 
+          formControlName="role" 
+          placeholder="Select Role"
+          [ngClass]="{'invalid-field': userForm.controls['role'].invalid && userForm.controls['role'].touched}"/>
+      </div>
+    
+      <!-- Submit Button -->
+      <div class="p-d-flex p-jc-end p-ai-center" style="position: absolute; bottom: 20px; right: 20px; gap: 15px;">
+        <p-button class="m-2" label="Cancel" icon="pi pi-minus-circle" severity="warn" (click)="visible = false"></p-button>
+        <p-button label="Save" type="submit" [disabled]="userForm.invalid" severity="success" icon="pi pi-save"></p-button>
+      </div>
+    
+    </form>
+    
+    
+    
+    <!-- Buttons: Positioned at the bottom right of the dialog -->
+    
+    
   </p-dialog>
+  
+
 </div>
 <div class="card mt-2" >
   <!-- <p-button (click)="showDialog()" label="Show" /> -->
@@ -28,26 +101,33 @@
         stripedRows
         [tableStyle]="{ 'min-width': '40rem' }">
         <ng-template #header>
-            <tr>
-              <th>User ID</th>
-              <th>User Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Created At</th>
-              <th>Created By</th>
-              <th>Action</th>
-            </tr>
-          </ng-template>
-          
-          <ng-template #body let-user>
-            <tr>
-              <td>{{ user.userId }}</td>
-              <td>{{ user.userName }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.role }}</td>
-              <td>{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
-              <td>{{ user.createdBy }}</td>
-            </tr>
-          </ng-template>
+          <tr>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Created At</th>
+            <th>Created By</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+        
+        <ng-template #body let-user>
+          <tr>
+            <td>{{ user.userId }}</td>
+            <td>{{ user.userName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.passwordHash }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ user.createdBy }}</td>
+            <td class="text-right">
+              <p-button [rounded]="true" (onClick)="confirmDelete(user.userId)" [outlined]="true" class="m-2" severity="danger" icon="pi pi-trash"></p-button>
+              <p-button [rounded]="true" [outlined]="true" severity="warn" icon="pi pi-user-edit"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        
     </p-table>
 </div>

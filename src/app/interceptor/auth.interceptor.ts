@@ -7,18 +7,18 @@ import { AuthService } from '../services/auth.service';
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> => {
   const authService = inject(AuthService);
   const token = authService.getAccessToken();
+  
   console.log("hello from auth interceptor");
   let authReq = req;
   if (token) {
     authReq = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `bearer ${token}`,
       },
     });
   }
-
+  //debugger;
   return next(authReq).pipe(
-
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && authService.getRefreshToken()) {
         return authService.refreshToken().pipe(
